@@ -16,7 +16,7 @@ const loginWithToken = async (req, res, next) => {
   if (token) {
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      const mongooseUser = await UserModel.findById(decoded.userId);
+      const mongooseUser = await UserModel.findById(decoded.user_id);
       if (!mongooseUser) return res.status(400).json({error: 'User not found'});
       return res.status(200).json({});
     } catch (error) {
@@ -35,7 +35,7 @@ const loginWithCredentials = async (req, res, next) => {
       const user = await mongooseUser.toObject();
       const isMatch = await bcrypt.compare(password, user.password);
       if (isMatch) {
-        const token = jwt.sign({  userId: user._id }, process.env.JWT_SECRET);
+        const token = jwt.sign({  user_id: user._id }, process.env.JWT_SECRET);
         return res.status(200).json({ token });
       }else{
         return res.status(400).json({Error: 'Password incorrect'});
@@ -64,7 +64,7 @@ const register = async (req, res, next) => {
       await user.save();
 
       //Create token
-      const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
+      const token = jwt.sign({ user_id: user._id }, process.env.JWT_SECRET);
 
       return res.status(200).json({token});
     } catch (error) {
@@ -73,4 +73,25 @@ const register = async (req, res, next) => {
   }
 };
 
-export default {login, register};
+// get user_id by token
+const getUserIDByToken = async (token) => {
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    return decoded.user_id;
+  } catch (error) {
+    return null;
+  }
+};
+
+const getUserByToken = async (token) => {
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const mongooseUser = await UserModel.findById(decoded.user_id);
+    if (!mongooseUser) return null;
+    return mongooseUser;
+  } catch (error) {
+    return null;
+  }
+};
+
+export default {login, register, getUserIDByToken, getUserByToken};

@@ -5,6 +5,7 @@ import morgan from 'morgan';
 import cors from 'cors';
 
 import users from './src/routes/users.route.js';
+import posts from './src/routes/post.route.js';
 import unknown from './src/routes/unknown.route.js';
 import error from './src/routes/error.route.js';
 
@@ -26,6 +27,7 @@ app.use(
 app.use(cors());
 
 app.use('/users', users);
+app.use('/posts', posts);
 
 app.get('/', (req, res) => {
   res.json({ message: 'PICsHAr API' });
