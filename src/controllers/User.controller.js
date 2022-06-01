@@ -73,4 +73,4 @@ const register = async (req, res, next) => {
   }
 };
 
-export default { login, register};
+export default {login, register};
