@@ -1,10 +1,6 @@
 import mongoose from 'mongoose';
 
 const schema = new mongoose.Schema({
-  display_name: {
-    type: String,
-    required: true,
-  },
   username: {
     type: String,
     unique: true,
@@ -14,6 +10,19 @@ const schema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  email:{
+    type: String,
+    required: true,
+  },
+  birthdate: {
+    type: Date,
+    required: true,
+  },
+  bio: {
+    type: String,
+    required: true,
+  }
+  
 });
 
 const User = mongoose.model('User', schema);
