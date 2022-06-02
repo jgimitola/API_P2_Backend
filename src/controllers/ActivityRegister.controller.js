@@ -1,11 +1,13 @@
 import ActivityRegisterModel from '../models/ActivityRegister.model.js';
-import { getUserIDByToken } from '../controllers/User.controller.js';
+
+import getUserIDByToken from '../controllers/User.controller.js';
 
 // create activity register
 export const createActivityRegister = async (req, res, action) => {
   const { post_id } = req.body;
   const { token } = req.headers;
   const { user_id } = await getUserIDByToken(token);
+
   try {
     if (post_id && user_id) {
       if (action === 'comment') {
