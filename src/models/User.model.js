@@ -10,7 +10,7 @@ const schema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  email:{
+  email: {
     type: String,
     required: true,
   },
@@ -21,8 +21,7 @@ const schema = new mongoose.Schema({
   bio: {
     type: String,
     required: true,
-  }
-  
+  },
 });
 
 const User = mongoose.model('User', schema);
